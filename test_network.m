@@ -1,0 +1,88 @@
+
+function test_network(net,alphabet)
+% Creat your name in a 35x(Name_length) matrix with
+
+% alphabet=load('Capital_alphabet.mat');% capital characters
+% alphabet=getfield(alphabet,'alphabet');
+
+% 1) ideal alphabets
+%retrieving data from keybord:
+%display('Pleaze Inter your name Here:...')
+inp=input('please inter your name :','s')
+siz1=size(inp);
+n=siz1(1,2);
+for i=1:n
+    if(inp(i)>96)
+        inp(i)=inp(i)-32;
+    end
+end
+for i=1:n
+    data(i)=inp(i)-64;
+end
+
+for i=1:n
+    if((data(i)>26)||(data(i)<1))
+        data(i)=27;
+    end
+    
+end
+
+
+for i=1:n
+    M(:,i)=alphabet(:,data(i));
+end
+
+
+%M=[alphabet(:,13) alphabet(:,15) alphabet(:,8) alphabet(:,1) alphabet(:,13) alphabet(:,13) alphabet(:,1) alphabet(:,4)  ];
+% 2) noisy alphabets with noise_level=1;
+Mnl1=generate_charsn(M,1);
+% 3) noisy alphabets with noise_level=2;
+Mnl2=generate_charsn(M,2);
+% 4) noisy alphabets with noise_level=3;
+Mnl3=generate_charsn(M,3);
+% 5) noisy alphabets with noise_level=4;
+Mnl4=generate_charsn(M,4);
+% Show your clear and noisy names like it was showed
+MNL=[M Mnl1 Mnl2 Mnl3 Mnl4];
+% creating image of input name:
+figure('name','input name');
+ 
+    for i=1:n*5
+        subplot(5,n,i);
+        colormap('winter');
+        imagesc(reshape(MNL(:,i),5,7)',[0,1]);
+        axis off;
+    end
+
+% finding correct charachter:
+for j=1:n*5
+    X=compet(sim(net,MNL(:,j)));
+    for i=1:27
+        if X(i)==1
+            OUT(:,j)=alphabet(:,i);
+        else 
+        end
+    end
+end
+    
+            
+        
+% Give your name word by word to the network and display the output
+% OUT=zeros(27,40);
+% showing recognized pattern:
+figure('name','recognized name');
+for i=1:n*5
+        subplot(5,n,i);
+        colormap('spring');
+        imagesc(reshape(OUT(:,i),5,7)',[0,1]);
+        axis off;
+end
+
+
+
+
+
+
+
+
+
