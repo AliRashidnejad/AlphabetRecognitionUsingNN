@@ -9,6 +9,7 @@
 % creating  the network for a special target
 % net = create_network(alphabet(:,1)',X');
 % generating data for network:
+% see Capital_alphabet @ directory of this project
 clear all ; 
 clc;
 close all ;
